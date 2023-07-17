@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.template import Library
 from django.utils.html import format_html
 
+from blog.models import Post
+
 user = get_user_model()
 
 register = Library()
@@ -28,4 +30,27 @@ def author_details(author, current_user=None):
   
   return format_html("{}{}{}", prefix, name, suffix)
 
+@register.simple_tag(name="row")
+def bootstrap_row(extra_classes=""):
+  return format_html('<div class="row {} ">', extra_classes)
 
+@register.simple_tag(name="endrow")
+def bootstrap_endrow():
+  return format_html('</div>')
+
+@register.simple_tag(name="col")
+def bootstrap_row(extra_classes=""):
+  return format_html('<div class="col {} ">', extra_classes)
+
+@register.simple_tag(name="endcol")
+def bootstrap_endrow():
+  return format_html('</div>')
+
+@register.inclusion_tag("blog/post_list.html")
+def recent_posts(post):
+  posts = Post.objects.exclude(pk=post.pk)[:5]
+  context = {
+    "title": "Recent Posts", 
+    "posts": posts
+  }
+  return context

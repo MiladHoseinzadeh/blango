@@ -6,17 +6,17 @@
 <h2>Blog Posts</h2>
 
 {% for post in posts %}
-<div class="row">
-    <div class="col">
-        <h3>{{ post.title }}</h3>
-        <small>By {{ post.author|author_details:request.user }} on {{ post.published_at|date:"y/M/d" }}</small>
-        <p>{{ post.summary }}</p>
-        <p>
-            ({{ post.content|wordcount }} words)
-            <a class="btn btn-primary" href="#">Read More</a>
-        </p>
-    </div>
-</div>
+  {% row "border-bottom mt-3" %}
+      {% col %}
+          <h3>{{ post.title }}</h3>
+          {% include "blog/partials/post_byline.html" %}
+          <p>{{ post.summary }}</p>
+          <p>
+              ({{ post.content|wordcount }} words)
+              <a class="btn btn-primary" href="{% url 'blog:post_detail' post.slug %}">Read More</a>
+          </p>
+      {% endcol %}
+  {% endrow %}
 {% endfor %}
 
 {% endblock %}
