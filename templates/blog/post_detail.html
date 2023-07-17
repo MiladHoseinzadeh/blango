@@ -10,11 +10,15 @@
       {% include "blog/partials/post_byline.html" %}
     {% endcol %}
   {% endrow %}
-  {% row %}
+
+  {% row "pb-2" %}
     {% col %}
       {{ post.content|safe }}
     {% endcol %}
   {% endrow %}
+
+  {% include "blog/partials/post_comments.html" %}
+
   {% row %}
     {% col %}
       {% recent_posts post %}
