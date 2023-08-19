@@ -13,6 +13,7 @@ import dj_database_url
 import os
 from pathlib import Path
 from configurations import Configuration, values
+from debug_toolbar.panels.logging import collector
 
 
 class Dev(Configuration):
@@ -51,11 +52,13 @@ class Dev(Configuration):
 
         'crispy_forms',
         'crispy_bootstrap5',
+        'debug_toolbar',
 
         'blog.apps.BlogConfig',
     ]
 
     MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -170,12 +173,20 @@ class Dev(Configuration):
                 "stream": "ext://sys.stdout",
                 "formatter": "verbose",
             },
+            'djdt_log': {
+                'level': 'DEBUG',
+                'class': 'debug_toolbar.panels.logging.ThreadTrackingHandler',
+                'collector': collector,
+            },
         },
         "root": {
-            "handlers": ["console",],
+            "handlers": ["console", 'djdt_log',],
             "level": "DEBUG",
         }
     }
+
+    # IP
+    INTERNAL_IPS = ["192.168.11.179"]
 
 
 class Prod(Dev):
