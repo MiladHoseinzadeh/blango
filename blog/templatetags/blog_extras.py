@@ -1,8 +1,11 @@
+import logging
 from django.contrib.auth import get_user_model
 from django.template import Library
 from django.utils.html import format_html
 
 from blog.models import Post
+
+logger = logging.getLogger(__name__)
 
 user = get_user_model()
 
@@ -49,6 +52,7 @@ def bootstrap_endrow():
 @register.inclusion_tag("blog/post_list.html")
 def recent_posts(post):
   posts = Post.objects.exclude(pk=post.pk)[:5]
+  logger.debug("Loaded %d recent posts for post %d", len(posts), post.pk)
   context = {
     "title": "Recent Posts", 
     "posts": posts
