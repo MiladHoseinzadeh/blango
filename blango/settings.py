@@ -54,6 +54,7 @@ class Dev(Configuration):
         'crispy_bootstrap5',
         'debug_toolbar',
 
+        'blango_auth.apps.BlangoAuthConfig',
         'blog.apps.BlogConfig',
     ]
 
@@ -187,6 +188,9 @@ class Dev(Configuration):
 
     # IP
     INTERNAL_IPS = ["192.168.11.179"]
+
+    # Custom User Model
+    AUTH_USER_MODEL = "blango_auth.User"
 
 
 class Prod(Dev):
