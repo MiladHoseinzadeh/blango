@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('accounts/', include("blango_auth.urls")),
     path("accounts/", include("django_registration.backends.activation.urls")),
+    path("accounts/", include("allauth.urls")),
     path('ip/', get_ip, name="get_ip"),
 ]
 
